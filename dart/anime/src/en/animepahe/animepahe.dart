@@ -43,7 +43,7 @@ class AnimePahe extends MProvider {
       anime.artist = item["fansub"];
       animeList.add(anime);
     }
-
+  }
   @override
   Future<MPages> search(String query, int page, FilterList filterList) async {
     final res = (await client.get(
