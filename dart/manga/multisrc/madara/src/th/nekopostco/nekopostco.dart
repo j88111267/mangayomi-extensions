@@ -9,7 +9,7 @@ Source _nekopostcoSource = Source(
 
   typeSource: "madara",
   iconUrl:
-      "https://raw.githubusercontent.com/m2k3a/mangayomi-extensions/$branchName/dart/manga/multisrc/madara/src/th/nekopostco/icon.png",
+      "https://raw.githubusercontent.com/j88111267/mangayomi-extensions/$branchName/dart/manga/multisrc/madara/src/th/nekopostco/icon.png",
   dateFormat: "d MMMM yyyy",
   dateFormatLocale: "th",
 );

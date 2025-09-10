@@ -133,7 +133,10 @@ class AnimePahe extends MProvider {
         Uri.parse(newUrl),
         headers: headers,
       )).body;
-      animeList.addAll(await recursivePages(newUrl, newRes, session));
+      List<MManga> list = await recursivePages(newUrl, newRes, session);
+      for(var item in list){
+        animeList.add(item);
+      }
     }
     return animeList;
   }
@@ -376,11 +379,11 @@ class AnimePahe extends MProvider {
         title: "Preferred domain",
         summary: "",
         valueIndex: 1,
-        entries: ["animepahe.com", "animepahe.ru", "animepahe.org"],
+        entries: ["animepahe.com", "animepahe.ru", "animepahe.si"],
         entryValues: [
           "https://animepahe.com",
           "https://animepahe.ru",
-          "https://animepahe.org",
+          "https://animepahe.si",
         ],
       ),
       SwitchPreferenceCompat(
