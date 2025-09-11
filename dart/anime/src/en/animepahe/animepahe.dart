@@ -76,7 +76,7 @@ class AnimePahe extends MProvider {
       Uri.parse("$baseUrl/anime/$session?anime_id=$id"),
       headers: headers,
     )).body;
-    final document = parseHtml();
+    final document = parseHtml(res);
     final status =
         (document.xpathFirst('//div/p[contains(text(),"Status:")]/text()') ??
                 "")
