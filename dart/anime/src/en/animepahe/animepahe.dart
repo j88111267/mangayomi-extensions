@@ -10,7 +10,7 @@ class AnimePahe extends MProvider {
   final Client client = Client();
 
   @override
-  String get baseUrl => getPreferenceValue(source.id, "preferred_domain");
+  String get baseUrl => getPreferenceValue(source.id, "override_domain");
 
   @override
   Map<String, String> get headers => {'cookie': '__ddg1_=;__ddg2_=;'};
@@ -390,10 +390,12 @@ class AnimePahe extends MProvider {
   List<dynamic> getSourcePreferences() {
     return [
       EditTextPreference(
-        key: "preferred_domain",
+        key: "override_domain",
         title: "Override domain",
         summary: "",
         value: "https://animepahe.si",
+        dialogTitle: "Override base url",
+        dialogMessage: "",
       ),
       SwitchPreferenceCompat(
         key: "preferred_thumbnail",
