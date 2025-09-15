@@ -29,7 +29,7 @@ class AnimePahe extends MProvider {
     final jsonResult = json.decode(res);
     final hasNextPage = jsonResult["current_page"] < jsonResult["last_page"];
     List<MManga> animeList = [];
-    if(getPreferenceValue(source.id, "preffered_thumbnail")){
+    if(getPreferenceValue(source.id, "preferred_thumbnail")){
       for (var item in jsonResult["data"]) {
         var res1 = (await client.get(
           Uri.parse("$baseUrl/anime/${item["anime_session"]}?anime_id=${item["session"]}"),
@@ -44,14 +44,14 @@ class AnimePahe extends MProvider {
         animeList.add(anime);
       }
     } else{
-        document = parseHtml(res1);
+      for (var item in jsonResult["data"]) {
         MManga anime = MManga();
         anime.name = item["anime_title"];
         anime.imageUrl = item["snapshot"];
-        anime.description = "";
         anime.link = "/anime/?anime_id=${item["id"]}&name=${item["anime_title"]}";
         anime.artist = item["fansub"];
         animeList.add(anime);
+      }
     }
     return MPages(animeList, hasNextPage);
   }
@@ -206,7 +206,7 @@ class AnimePahe extends MProvider {
       final quality = btn.text;
       final paheWinLink = downloadLinks[i].attr("href");
 
-      if (getPreferenceValue(source.id, "preffered_link_type")) {
+      if (getPreferenceValue(source.id, "preferred_link_type")) {
         final noRedirectClient = Client(
           source,
           json.encode({"followRedirects": false, "useDartHttpClient": true}),
@@ -401,14 +401,14 @@ class AnimePahe extends MProvider {
           "https://animepahe.si",
         ],
       ),
-      ThumbnailPreference(
-        key: "preffered_thumbnail",
+      SwitchPreferenceCompat(
+        key: "preferred_thumbnail",
         title: "Use thumbnail",
         summary: "Enabling this will make front page much slower.",
-        value: false,
+        value: true,
       ),
       SwitchPreferenceCompat(
-        key: "preffered_link_type",
+        key: "preferred_link_type",
         title: "Use HLS links",
         summary: "Enable this if you are having Cloudflare issues.",
         value: false,
