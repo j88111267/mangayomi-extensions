@@ -29,19 +29,29 @@ class AnimePahe extends MProvider {
     final jsonResult = json.decode(res);
     final hasNextPage = jsonResult["current_page"] < jsonResult["last_page"];
     List<MManga> animeList = [];
-    for (var item in jsonResult["data"]) {
-      var res1 = (await client.get(
-        Uri.parse("$baseUrl/anime/${item["anime_session"]}?anime_id=${item["session"]}"),
-        headers: headers,
-      )).body;
-      document = parseHtml(res1);
-      MManga anime = MManga();
-      anime.name = item["anime_title"];
-      anime.imageUrl = document.selectFirst("div.anime-poster a").attr("href");
-      anime.description = "$baseUrl/anime/${item["anime_session"]}?anime_id=${item["session"]}";
-      anime.link = "/anime/?anime_id=${item["id"]}&name=${item["anime_title"]}";
-      anime.artist = item["fansub"];
-      animeList.add(anime);
+    if(getPreferenceValue(source.id, "preffered_thumbnail")){
+      for (var item in jsonResult["data"]) {
+        var res1 = (await client.get(
+          Uri.parse("$baseUrl/anime/${item["anime_session"]}?anime_id=${item["session"]}"),
+          headers: headers,
+        )).body;
+        document = parseHtml(res1);
+        MManga anime = MManga();
+        anime.name = item["anime_title"];
+        anime.imageUrl = document.selectFirst("div.anime-poster a").attr("href");
+        anime.link = "/anime/?anime_id=${item["id"]}&name=${item["anime_title"]}";
+        anime.artist = item["fansub"];
+        animeList.add(anime);
+      }
+    } else{
+        document = parseHtml(res1);
+        MManga anime = MManga();
+        anime.name = item["anime_title"];
+        anime.imageUrl = item["snapshot"];
+        anime.description = "";
+        anime.link = "/anime/?anime_id=${item["id"]}&name=${item["anime_title"]}";
+        anime.artist = item["fansub"];
+        animeList.add(anime);
     }
     return MPages(animeList, hasNextPage);
   }
@@ -390,6 +400,12 @@ class AnimePahe extends MProvider {
           "https://animepahe.ru",
           "https://animepahe.si",
         ],
+      ),
+      ThumbnailPreference(
+        key: "preffered_thumbnail",
+        title: "Use thumbnail",
+        summary: "Enabling this will make front page much slower.",
+        value: false,
       ),
       SwitchPreferenceCompat(
         key: "preffered_link_type",
