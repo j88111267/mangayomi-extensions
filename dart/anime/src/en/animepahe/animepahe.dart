@@ -389,17 +389,11 @@ class AnimePahe extends MProvider {
   @override
   List<dynamic> getSourcePreferences() {
     return [
-      ListPreference(
+      EditTextPreference(
         key: "preferred_domain",
-        title: "Preferred domain",
+        title: "Override domain",
         summary: "",
-        valueIndex: 1,
-        entries: ["animepahe.com", "animepahe.ru", "animepahe.si"],
-        entryValues: [
-          "https://animepahe.com",
-          "https://animepahe.ru",
-          "https://animepahe.si",
-        ],
+        value: "https://animepahe.si",
       ),
       SwitchPreferenceCompat(
         key: "preferred_thumbnail",
